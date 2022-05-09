@@ -14,9 +14,16 @@ library(telegram.bot)
 
 img_links <- readRDS("data/img_links.rds")
 
-print(Sys.getenv("r_telegram_bot_arnold"))
+# print(Sys.getenv("r_telegram_bot_arnold"))
 
 bot <- Bot(token = Sys.getenv("r_telegram_bot_arnold"))
+
+
+start_time <- Sys.time()
+
+while(seconds_past < 60*60*4.7){
+  
+current_time <- Sys.time()
 
 update_list <- bot$get_updates()
 
@@ -122,3 +129,8 @@ if(nrow(update_dat)!=0){
   
 }
 
+seconds_past <- as.numeric(current_time) - as.numeric(start_time) 
+
+
+
+}

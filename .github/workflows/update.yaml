@@ -15,7 +15,7 @@ on:
       - master
       - main
   schedule:
-    - cron: '0 9,21 * * *'
+    - cron: '0 */5 * * *'
       
 jobs:
   update-data:
