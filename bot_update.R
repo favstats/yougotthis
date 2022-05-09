@@ -21,6 +21,8 @@ bot <- Bot(token = Sys.getenv("r_telegram_bot_arnold"))
 
 start_time <- Sys.time()
 
+seconds_past <- 0
+
 while(seconds_past < 60*60*4.7){
   
 current_time <- Sys.time()
@@ -131,6 +133,6 @@ if(nrow(update_dat)!=0){
 
 seconds_past <- as.numeric(current_time) - as.numeric(start_time) 
 
-
+Sys.sleep(5)
 
 }
