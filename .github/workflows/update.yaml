@@ -27,6 +27,8 @@ jobs:
         shell: Rscript {0}
       - name: "Check for updates"
         run: Rscript 'bot_update.R'
+        env:
+          r_telegram_not_arnold: ${{ secrets.R_TELEGRAM_BOT_ARNOLD }}
       - name: "Commit"
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
