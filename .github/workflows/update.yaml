@@ -1,6 +1,7 @@
 name: "Update Bot"
 
 permissions:
+  contents: write
   actions: write
   pull-requests: write
 
