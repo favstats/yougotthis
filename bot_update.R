@@ -14,7 +14,7 @@ library(telegram.bot)
 
 img_links <- readRDS("data/img_links.rds")
 
-# print(Sys.getenv("r_telegram_bot_arnold"))
+print(Sys.getenv("r_telegram_bot_arnold"))
 
 bot <- Bot(token = Sys.getenv("r_telegram_bot_arnold"))
 
