@@ -1,4 +1,9 @@
 name: "Update Bot"
+
+permissions:
+  actions: write
+  pull-requests: write
+
 on:
   push:
     branches:
