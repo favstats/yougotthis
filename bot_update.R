@@ -138,9 +138,12 @@ if(nrow(update_dat)!=0){
       
       write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
       
-    } else if (startsWith(.x$text, "/gpt3")){
+    } else if (startsWith(.x$text, "/gpt3") | startsWith(.x$text, "/hey_arnold")){
       
       print("gpt3")
+      
+      the_prompt <- gsub("/gpt3 ", "", .x$text)
+      the_prompt <- gsub("/hey_arnold ", "", the_prompt)
       
       gpt_prompt <- list(
         prompt = gsub("/gpt3 ", "", .x$text),
