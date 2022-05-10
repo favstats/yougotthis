@@ -34,6 +34,18 @@ current_time <- Sys.time()
 
 update_list <- bot$get_updates()
 
+# debugonce(get_update_id)
+
+OFFSET <- get_update_id(update_list)
+
+update_list <- get_updates(bot, OFFSET)
+# ww <- update_list[[length(update_list)]]
+
+# ww$message$from_user
+
+
+  
+
 update_dat <- data.frame()
 
 for (.x in update_list) {
@@ -41,6 +53,8 @@ for (.x in update_list) {
   the_text <- .x$message$text
   the_date <- .x$message$date
   the_chat_id <- .x$message$chat_id
+  the_user_id <- .x$message$from_user
+  the_message_id <- .x$message$message_id
   
   if(is.null(the_text)){
     the_text <- NA
@@ -56,7 +70,9 @@ for (.x in update_list) {
   } else {
     each_row <- data.frame(text = the_text,
                            date = the_date,
-                           chat_id = the_chat_id)      
+                           chat_id = the_chat_id,
+                           user_id = the_user_id,
+                           message_id = the_message_id)      
     
     update_dat <- rbind(update_dat, each_row)
   }  

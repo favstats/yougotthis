@@ -11,7 +11,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update) {
     img_to_sent <- sample(the_images, 1)
     
     if(!manual_update){
-      bot$send_photo(.x$chat_id, img_to_sent)
+      bot$send_photo(.x$chat_id, img_to_sent, reply_to_message_id = .x$message_id)
     }
     
     save_dat <- .x
@@ -30,7 +30,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update) {
     print("reset")
     
     if(!manual_update){
-      bot$send_message(.x$chat_id, "Roger that. Reset all images.")
+      bot$send_message(.x$chat_id, "Roger that. Reset all images.", reply_to_message_id = .x$message_id)
     }      
     
     save_dat <- .x
@@ -53,7 +53,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update) {
     that_many <- length(img_links) - how_many
     
     if(!manual_update){
-      bot$send_message(.x$chat_id, paste0("You already saw ", how_many, " images. There are ", that_many, " images left."))
+      bot$send_message(.x$chat_id, paste0("You already saw ", how_many, " images. There are ", that_many, " images left."), reply_to_message_id = .x$message_id)
     }
     
     save_dat <- .x
@@ -105,7 +105,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update) {
     print(message_to_sent)
     
     if(!manual_update){
-      bot$send_message(.x$chat_id, message_to_sent)
+      bot$send_message(.x$chat_id, message_to_sent, reply_to_message_id = .x$message_id)
     }
     
     save_dat <- .x
@@ -119,3 +119,14 @@ bot_action <- function(bot, update_dat, img_links, manual_update) {
 
 
 
+get_updates <- function(bot, OFFSET) {
+  return(bot$get_updates(offset = OFFSET))
+}
+
+get_update_id <- function(updates) {
+  num_updates = length(updates)
+  last_update = num_updates - 1
+  update_id = updates[[last_update]]$update_id
+  return (update_id)
+  
+}
