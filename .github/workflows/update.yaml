@@ -6,6 +6,10 @@ permissions:
   pull-requests: write
 
 on:
+  push:
+    branches:
+      - master
+      - main
   schedule:
     - cron: '0 */5 * * *'
       
