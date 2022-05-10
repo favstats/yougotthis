@@ -70,13 +70,20 @@ new_updates <- setdiff(update_dat$date, already_done$date)
 
 update_dat <- na.omit(update_dat[update_dat$date %in% new_updates,])
   
+update_dat <- update_dat[update_dat$date!=1652122844,]
   
+
+
 if(nrow(update_dat)!=0){
   
   iterate_l <- split(update_dat, 1:nrow(update_dat))
   
+  # .x <- iterate_l[[1]]
+  
   for (.x in iterate_l) {
     if(.x$text %in% c("/send_image", "/send_motivation")){
+      
+      print("send motivation")
       
       img_list <- readLines("img_list.txt")
       img_list <- img_list[img_list != ""]
@@ -101,6 +108,8 @@ if(nrow(update_dat)!=0){
             
     } else if (.x$text == "/reset"){
       
+      print("reset")
+      
       bot$send_message(.x$chat_id, "Roger that. Reset all images.")
       
       save_dat <- .x
@@ -116,6 +125,8 @@ if(nrow(update_dat)!=0){
       
     } else if (.x$text == "/progress"){
       
+      print("image progress")
+      
       how_many <- as.numeric(readLines("img_counter.txt"))
       that_many <- length(img_links) - how_many
       
@@ -129,6 +140,8 @@ if(nrow(update_dat)!=0){
       
     } else if (startsWith(.x$text, "/gpt3")){
       
+      print("gpt3")
+      
       gpt_prompt <- list(
         prompt = gsub("/gpt3 ", "", .x$text),
         temperature = 0,
@@ -138,7 +151,7 @@ if(nrow(update_dat)!=0){
         presence_penalty = 0
       ) 
       
-      myurl <- "https://api.openai.com/v1/engines/davinci/completions"
+      myurl <- "https://api.openai.com/v1/engines/text-davinci-002/completions"
       
       apikey <- Sys.getenv("gpt3")
       
