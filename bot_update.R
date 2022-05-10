@@ -13,6 +13,8 @@ library(httr)
 #   unique()
 # saveRDS(img_links, file = "data/img_links.rds")
 
+manual_update <- T
+
 img_links <- readRDS("data/img_links.rds")
 
 # print(Sys.getenv("r_telegram_bot_arnold"))
@@ -92,8 +94,9 @@ if(nrow(update_dat)!=0){
       
       img_to_sent <- sample(the_images, 1)
       
-      bot$send_photo(.x$chat_id, img_to_sent)
-      
+      if(!manual_update){
+        bot$send_photo(.x$chat_id, img_to_sent)
+      }
       
       save_dat <- .x
       
@@ -110,12 +113,15 @@ if(nrow(update_dat)!=0){
       
       print("reset")
       
-      bot$send_message(.x$chat_id, "Roger that. Reset all images.")
+      if(!manual_update){
+        bot$send_message(.x$chat_id, "Roger that. Reset all images.")
+      }      
       
       save_dat <- .x
       
       save_dat$action <- "done"
       
+
       write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
       
       writeLines("0", "img_counter.txt")
@@ -130,7 +136,9 @@ if(nrow(update_dat)!=0){
       how_many <- as.numeric(readLines("img_counter.txt"))
       that_many <- length(img_links) - how_many
       
-      bot$send_message(.x$chat_id, paste0("You alreay saw ", how_many, " images. There are ", that_many, " images left."))
+      if(!manual_update){
+        bot$send_message(.x$chat_id, paste0("You alreay saw ", how_many, " images. There are ", that_many, " images left."))
+      }
       
       save_dat <- .x
       
@@ -146,7 +154,7 @@ if(nrow(update_dat)!=0){
       the_prompt <- gsub("/hey_arnold ", "", the_prompt)
       
       gpt_prompt <- list(
-        prompt = gsub("/gpt3 ", "", .x$text),
+        prompt = the_prompt,
         temperature = 0,
         max_tokens = 250,
         top_p = 1,
@@ -166,7 +174,9 @@ if(nrow(update_dat)!=0){
       
       message_to_sent <- content(output)$choices[[1]]$text
       
-      bot$send_message(.x$chat_id, message_to_sent)
+      if(!manual_update){
+        bot$send_message(.x$chat_id, message_to_sent)
+      }
       
       save_dat <- .x
       
