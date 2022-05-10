@@ -15,6 +15,8 @@ library(httr)
 
 manual_update <- F
 
+source("utils.R")
+
 img_links <- readRDS("data/img_links.rds")
 
 # print(Sys.getenv("r_telegram_bot_arnold"))
@@ -83,108 +85,9 @@ if(nrow(update_dat)!=0){
   # .x <- iterate_l[[1]]
   
   for (.x in iterate_l) {
-    if(.x$text %in% c("/send_image", "/send_motivation")){
-      
-      print("send motivation")
-      
-      img_list <- readLines("img_list.txt")
-      img_list <- img_list[img_list != ""]
-      
-      the_images <- as.character(na.omit(setdiff(img_links, img_list)))
-      
-      img_to_sent <- sample(the_images, 1)
-      
-      if(!manual_update){
-        bot$send_photo(.x$chat_id, img_to_sent)
-      }
-      
-      save_dat <- .x
-      
-      save_dat$action <- img_to_sent
-      
-      write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
-      
-      writeLines(as.character(as.numeric(readLines("img_counter.txt")) + 1), "img_counter.txt")
-
-      cat(img_to_sent, file = "img_list.txt", sep = "\n", append = T)
-      
-            
-    } else if (.x$text == "/reset"){
-      
-      print("reset")
-      
-      if(!manual_update){
-        bot$send_message(.x$chat_id, "Roger that. Reset all images.")
-      }      
-      
-      save_dat <- .x
-      
-      save_dat$action <- "done"
-      
-
-      write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
-      
-      writeLines("0", "img_counter.txt")
-      
-      writeLines("", "img_list.txt")
-      
-      
-    } else if (.x$text == "/progress"){
-      
-      print("image progress")
-      
-      how_many <- as.numeric(readLines("img_counter.txt"))
-      that_many <- length(img_links) - how_many
-      
-      if(!manual_update){
-        bot$send_message(.x$chat_id, paste0("You alreay saw ", how_many, " images. There are ", that_many, " images left."))
-      }
-      
-      save_dat <- .x
-      
-      save_dat$action <- "done"
-      
-      write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
-      
-    } else if (startsWith(.x$text, "/gpt3") | startsWith(.x$text, "/hey_arnold")){
-      
-      print("gpt3")
-      
-      the_prompt <- gsub("/gpt3 ", "", .x$text)
-      the_prompt <- gsub("/hey_arnold ", "", the_prompt)
-      
-      gpt_prompt <- list(
-        prompt = the_prompt,
-        temperature = 0,
-        max_tokens = 250,
-        top_p = 1,
-        frequency_penalty = 0,
-        presence_penalty = 0
-      ) 
-      
-      myurl <- "https://api.openai.com/v1/engines/text-davinci-002/completions"
-      
-      apikey <- Sys.getenv("gpt3")
-      
-      output <- httr::POST(myurl, 
-                           body = gpt_prompt, 
-                           add_headers(Authorization = paste("Bearer", apikey)), 
-                           encode = "json")
-      
-      
-      message_to_sent <- content(output)$choices[[1]]$text
-      
-      if(!manual_update){
-        bot$send_message(.x$chat_id, message_to_sent)
-      }
-      
-      save_dat <- .x
-      
-      save_dat$action <- "done"
-      
-      write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
-      
-    }    
+    
+    try(bot_action(bot, .x, img_links, manual_update))
+  
   }
   
 }
