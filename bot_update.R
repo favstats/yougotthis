@@ -13,7 +13,7 @@ library(httr)
 #   unique()
 # saveRDS(img_links, file = "data/img_links.rds")
 
-manual_update <- T
+manual_update <- F
 
 img_links <- readRDS("data/img_links.rds")
 
