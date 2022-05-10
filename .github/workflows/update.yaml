@@ -6,14 +6,6 @@ permissions:
   pull-requests: write
 
 on:
-  push:
-    branches:
-      - master
-      - main
-  pull_request:
-    branches:
-      - master
-      - main
   schedule:
     - cron: '0 */5 * * *'
       
@@ -35,6 +27,7 @@ jobs:
         run: Rscript 'bot_update.R'
         env:
           r_telegram_bot_arnold: ${{ secrets.R_TELEGRAM_BOT_ARNOLD }}
+          gpt3: ${{ secrets.GPT3 }}
       - name: "Commit"
         uses: stefanzweifel/git-auto-commit-action@v4
         with:

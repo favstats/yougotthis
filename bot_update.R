@@ -1,5 +1,6 @@
 
 library(telegram.bot)
+library(httr)
 
 # library(rvest)
 # html1 <- read_html("html/thelatestkate Shop _ Redbubble.html")
@@ -126,6 +127,37 @@ if(nrow(update_dat)!=0){
       
       write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
       
+    } else if (startsWith(.x$text, "/gpt3")){
+      
+      gpt_prompt <- list(
+        prompt = gsub("/gpt3 ", "", .x$text),
+        temperature = 0,
+        max_tokens = 250,
+        top_p = 1,
+        frequency_penalty = 0,
+        presence_penalty = 0
+      ) 
+      
+      myurl <- "https://api.openai.com/v1/engines/davinci/completions"
+      
+      apikey <- Sys.getenv("gpt3")
+      
+      output <- httr::POST(myurl, 
+                           body = gpt_prompt, 
+                           add_headers(Authorization = paste("Bearer", apikey)), 
+                           encode = "json")
+      
+      
+      message_to_sent <- content(output)$choices[[1]]$text
+      
+      bot$send_message(.x$chat_id, message_to_sent)
+      
+      save_dat <- .x
+      
+      save_dat$action <- "done"
+      
+      write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
+      
     }    
   }
   
@@ -136,3 +168,6 @@ seconds_past <- as.numeric(current_time) - as.numeric(start_time)
 Sys.sleep(5)
 
 }
+
+
+
