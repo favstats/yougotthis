@@ -22,6 +22,7 @@ jobs:
       - name: "Setup - Install Packages"
         run: |
           install.packages('telegram.bot')
+          install.packages('httr')
         shell: Rscript {0}
       - name: "Check for updates"
         run: Rscript 'bot_update.R'
