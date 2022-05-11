@@ -28,7 +28,7 @@ start_time <- Sys.time()
 
 seconds_past <- 0
 
-while(seconds_past < 60*60*4.7){
+while(seconds_past < 60*60*4.99){
   
 current_time <- Sys.time()
 
