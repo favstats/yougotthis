@@ -3,7 +3,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
   if(startsWith(.x$text, "/send_image") | startsWith(.x$text, "/send_motivation")){
     print("send motivation")
     
-    img_list <- readLines("img_list.txt")
+    img_list <- readLines("data/img_list.txt")
     img_list <- img_list[img_list != ""]
     
     the_images <- as.character(na.omit(setdiff(img_links, img_list)))
@@ -20,7 +20,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
     
-    writeLines(as.character(as.numeric(readLines("img_counter.txt")) + 1), "img_counter.txt")
+    writeLines(as.character(as.numeric(readLines("data/img_counter.txt")) + 1), "data/img_counter.txt")
     
     cat(img_to_sent, file = "data/img_list.txt", sep = "\n", append = T)
     
@@ -58,7 +58,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     print("image progress")
     
-    how_many <- as.numeric(readLines("img_counter.txt"))
+    how_many <- as.numeric(readLines("data/img_counter.txt"))
     that_many <- length(img_links) - how_many
     
     if(!manual_update){
