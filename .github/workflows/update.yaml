@@ -8,10 +8,10 @@ permissions:
 on:
   schedule:
     - cron: '0 */5 * * *'
-  # push:
-  #   branches:
-  #     - master
-  #     - main
+  push:
+    branches:
+      - master
+      - main
 
       
 jobs:
