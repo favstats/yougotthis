@@ -164,3 +164,33 @@ We discuss the findings in light of this evidence and reflect upon future resear
 "1","/hey_arnold write a story that mixes  Warhammer Fantasy lore with Attack on Titan and the Song of Ice and Fire lore and also includes Saul Goodman from Breaking Bad [3000]",1652292083,-724428608,1009844052,790,"done"
 "2","/hey_arnold write a uplifting story involving Sophie and her trustworthy dog named Wuffi [3000]",1652294710,-587655177,1009844052,792,"done"
 "2","/hey_arnold can you write a story set in the Attack On Titan universe but this time the titans turn out to be friendly",1652318465,1009844052,1009844052,800,"done"
+"1","/send_motivation",1652345707,-587655177,1009844052,802,"https://ih1.redbubble.net/image.2117463079.6219/flat,500x,075,f.u4.jpg"
+"2","/send_motivation",1652345713,-724428608,1009844052,803,"https://ih1.redbubble.net/image.383238420.8748/flat,500x,075,f.u4.jpg"
+"2","/hey_arnold I need to get a haircut, but I don’t really like the haircuts from my usual hairdresser. What do you recommend me to do?",1652349321,186756719,186756719,806,"done"
+"2","/hey_arnold write a sexy horror story involving three people: Keni who is very high, Lukas the clever engineer and Fabio the nerd",1652357137,1009844052,1009844052,808,"done"
+"2","/hey_arnold write a sexy horror story involving three people: Kenan who is very high, Lukas the clever engineer and Fabio the nerd [3000]",1652357204,1009844052,1009844052,810,"done"
+"2","/hey_arnold write a sexy horror story involving three people: Kenan who is very high, Lukas who is a clever engineer and Fabio who is a nerd [3000]",1652357259,1009844052,1009844052,812,"done"
+"2","/hey_arnold write a zombie invasion involving sex, drugs and rock n' roll and three people: Kenan who is very high, Lukas who is a clever engineer and Fabio who is a nerd [3000]",1652357305,1009844052,1009844052,814,"done"
+"2","/hey_arnold write a zombie invasion story involving sex, drugs and rock n' roll and three people: Kenan who is very high, Lukas who is a clever engineer and Fabio who is a nerd [3000]",1652357329,1009844052,1009844052,816,"done"
+"2","/hey_arnold write an epic story of how three friends fight off a zombie invasion: Kenan who is very high, Lukas who is a clever engineer and Fabio who is a nerd [3000]",1652357449,1009844052,1009844052,818,"done"
+"2","/hey_arnold write an epic story of how three friends fight off a zombie invasion in Amsterdam: Kenan who is very high, Lukas who is a clever engineer and Fabio who is a nerd [3000]",1652357603,1009844052,1009844052,820,"done"
+"2","/hey_arnold write an action story of how three friends Fabio, Lukas, and Kenan fight off a zombie invasion which involves 2 ninjas, an abandoned tank and a ton of weed [3500]",1652357788,1009844052,1009844052,822,"done"
+"2","/hey_arnold begrüß mal den Keni in der Gruppe",1652358311,-763833739,1009844052,825,"done"
+"2","/hey_arnold write a sexy horror story involving three people: Kenan who is very high, Lukas who is a clever engineer and Fabio who is a nerd [3000]",1652358397,-763833739,1009844052,827,"done"
+"2","/hey_arnold write a adventures story about Odin und Lina who are cats in Gölshausen [3000]",1652358681,-763833739,5352962818,829,"done"
+"2","/hey_arnold write a short Python script for a simple web app",1652358771,-763833739,1009844052,831,"done"
+"2","/hey_arnold explain what this code does:
+
+#!/usr/bin/env python
+
+import flask
+
+app = flask.Flask(name)
+
+@app.route(\"/\")
+def hello():
+    return \"Hello World!\"
+    
+if name == \"main\":
+    app.run()",1652358837,-763833739,1009844052,833,"done"
+"2","/hey_arnold write a paragraph about the war in Ukraine from a international relations perspective",1652358951,-763833739,1009844052,835,"done"
