@@ -2,6 +2,8 @@
 library(telegram.bot)
 library(httr)
 
+source("gdrive.R")
+
 # library(rvest)
 # html1 <- read_html("html/thelatestkate Shop _ Redbubble.html")
 # 
@@ -17,7 +19,7 @@ manual_update <- F
 
 source("utils.R")
 
-img_links <- readRDS("data/img_links.rds")
+img_links <- readRDS("img_links.rds")
 
 # print(Sys.getenv("r_telegram_bot_arnold"))
 
@@ -79,6 +81,7 @@ for (.x in update_list) {
   
 }
 
+# if()
 
 
 # write.csv(update_dat %>% slice(1:3) %>% mutate(action = ""), file = "data/update_dat.csv")
@@ -102,7 +105,7 @@ if(nrow(update_dat)!=0){
   
   for (.x in iterate_l) {
     
-    try(bot_action(bot, .x, img_links, manual_update))
+    try(bot_action(bot, .x, img_links, manual_update, data_dat))
   
   }
   

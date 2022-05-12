@@ -28,11 +28,14 @@ jobs:
         run: |
           install.packages('telegram.bot')
           install.packages('httr')
+          install.packages('purrr')
+          install.packages('googledrive')
         shell: Rscript {0}
       - name: "Check for updates"
         run: Rscript 'bot_update.R'
         env:
           r_telegram_bot_arnold: ${{ secrets.R_TELEGRAM_BOT_ARNOLD }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           gpt3: ${{ secrets.GPT3 }}
       - name: "Commit"
         uses: stefanzweifel/git-auto-commit-action@v4

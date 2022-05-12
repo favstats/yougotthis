@@ -1,5 +1,5 @@
 
-bot_action <- function(bot, update_dat, img_links, manual_update) {
+bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
   if(startsWith(.x$text, "/send_image") | startsWith(.x$text, "/send_motivation")){
     print("send motivation")
     
@@ -22,8 +22,12 @@ bot_action <- function(bot, update_dat, img_links, manual_update) {
     
     writeLines(as.character(as.numeric(readLines("img_counter.txt")) + 1), "img_counter.txt")
     
-    cat(img_to_sent, file = "img_list.txt", sep = "\n", append = T)
+    cat(img_to_sent, file = "data/img_list.txt", sep = "\n", append = T)
     
+    data_dat_save <- data_dat[data_dat$local %in% c("data/img_list.txt", "data/update_dat.csv"),]
+    
+    walk2(data_dat_save$g_id, data_dat_save$local,
+         ~ drive_update(file = .x, media = .y))
     
   } else if (startsWith(.x$text, "/reset")){
     
@@ -44,6 +48,11 @@ bot_action <- function(bot, update_dat, img_links, manual_update) {
     
     writeLines("", "img_list.txt")
     
+    data_dat_save <- data_dat[!(data_dat$local %in% c("data/img_links.rds")),]
+    
+    walk2(data_dat_save$g_id, data_dat_save$local,
+          ~ drive_update(file = .x, media = .y))
+    
     
   } else if (startsWith(.x$text, "/progress")){
     
@@ -61,6 +70,11 @@ bot_action <- function(bot, update_dat, img_links, manual_update) {
     save_dat$action <- "done"
     
     write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
+    
+    data_dat_save <- data_dat[data_dat$local == "data/update_dat.csv",]
+    
+    walk2(data_dat_save$g_id, data_dat_save$local,
+          ~ drive_update(file = .x, media = .y))
     
   } else if (startsWith(.x$text, "/gpt3") | startsWith(.x$text, "/hey_arnold")){
     
@@ -113,6 +127,11 @@ bot_action <- function(bot, update_dat, img_links, manual_update) {
     save_dat$action <- "done"
     
     write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
+    
+    data_dat_save <- data_dat[data_dat$local == "data/update_dat.csv",]
+    
+    walk2(data_dat_save$g_id, data_dat_save$local,
+          ~ drive_update(file = .x, media = .y))
     
   }      
 }
