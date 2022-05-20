@@ -10,10 +10,6 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     img_to_sent <- sample(the_images, 1)
     
-    if(!manual_update){
-      bot$send_photo(.x$chat_id, img_to_sent, reply_to_message_id = .x$message_id)
-    }
-    
     save_dat <- .x
     
     save_dat$action <- img_to_sent
@@ -28,6 +24,10 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     walk2(data_dat_save$g_id, data_dat_save$local,
          ~ drive_update(file = .x, media = .y))
+    
+    if(!manual_update){
+      bot$send_photo(.x$chat_id, img_to_sent, reply_to_message_id = .x$message_id)
+    }
     
   } else if (startsWith(.x$text, "/reset")){
     
@@ -60,11 +60,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     how_many <- as.numeric(readLines("data/img_counter.txt"))
     that_many <- length(img_links) - how_many
-    
-    if(!manual_update){
-      bot$send_message(.x$chat_id, paste0("You already saw ", how_many, " images. There are ", that_many, " images left."), reply_to_message_id = .x$message_id)
-    }
-    
+
     save_dat <- .x
     
     save_dat$action <- "done"
@@ -75,6 +71,11 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     walk2(data_dat_save$g_id, data_dat_save$local,
           ~ drive_update(file = .x, media = .y))
+        
+    if(!manual_update){
+      bot$send_message(.x$chat_id, paste0("You already saw ", how_many, " images. There are ", that_many, " images left."), reply_to_message_id = .x$message_id)
+    }
+
     
   } else if (startsWith(.x$text, "/gpt3") | startsWith(.x$text, "/hey_arnold")){
     
@@ -118,10 +119,6 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     print(message_to_sent)
     
-    if(!manual_update){
-      bot$send_message(.x$chat_id, message_to_sent, reply_to_message_id = .x$message_id)
-    }
-    
     save_dat <- .x
     
     save_dat$action <- "done"
@@ -132,6 +129,12 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     walk2(data_dat_save$g_id, data_dat_save$local,
           ~ drive_update(file = .x, media = .y))
+    
+    if(!manual_update){
+      bot$send_message(.x$chat_id, message_to_sent, reply_to_message_id = .x$message_id)
+    }
+    
+
     
   }      
 }

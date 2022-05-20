@@ -112,7 +112,7 @@ update_list <- bot$get_updates()
       for (.x in iterate_l) {
         
         try(bot_action(bot, .x, img_links, manual_update, data_dat))
-        
+
       }
       
     }
