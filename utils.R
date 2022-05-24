@@ -1,6 +1,6 @@
 
 bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
-  if(startsWith(.x$text, "/send_image") | startsWith(.x$text, "/send_motivation")){
+  if(startsWith(update_dat$text, "/send_image") | startsWith(update_dat$text, "/send_motivation")){
     print("send motivation")
     
     img_list <- readLines("data/img_list.txt")
@@ -10,7 +10,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     img_to_sent <- sample(the_images, 1)
     
-    save_dat <- .x
+    save_dat <- update_dat
     
     save_dat$action <- img_to_sent
     
@@ -26,18 +26,18 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
          ~ drive_update(file = .x, media = .y))
     
     if(!manual_update){
-      bot$send_photo(.x$chat_id, img_to_sent, reply_to_message_id = .x$message_id)
+      bot$send_photo(update_dat$chat_id, img_to_sent, reply_to_message_id = update_dat$message_id)
     }
     
-  } else if (startsWith(.x$text, "/reset")){
+  } else if (startsWith(update_dat$text, "/reset")){
     
     print("reset")
     
     if(!manual_update){
-      bot$send_message(.x$chat_id, "Roger that. Reset all images.", reply_to_message_id = .x$message_id)
+      bot$send_message(update_dat$chat_id, "Roger that. Reset all images.", reply_to_message_id = update_dat$message_id)
     }      
     
-    save_dat <- .x
+    save_dat <- update_dat
     
     save_dat$action <- "done"
     
@@ -54,14 +54,14 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
           ~ drive_update(file = .x, media = .y))
     
     
-  } else if (startsWith(.x$text, "/progress")){
+  } else if (startsWith(update_dat$text, "/progress")){
     
     print("image progress")
     
     how_many <- as.numeric(readLines("data/img_counter.txt"))
     that_many <- length(img_links) - how_many
 
-    save_dat <- .x
+    save_dat <- update_dat
     
     save_dat$action <- "done"
     
@@ -73,17 +73,17 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
           ~ drive_update(file = .x, media = .y))
         
     if(!manual_update){
-      bot$send_message(.x$chat_id, paste0("You already saw ", how_many, " images. There are ", that_many, " images left."), reply_to_message_id = .x$message_id)
+      bot$send_message(update_dat$chat_id, paste0("You already saw ", how_many, " images. There are ", that_many, " images left."), reply_to_message_id = update_dat$message_id)
     }
 
     
-  } else if (startsWith(.x$text, "/gpt3") | startsWith(.x$text, "/hey_arnold")){
+  } else if (startsWith(update_dat$text, "/gpt3") | startsWith(update_dat$text, "/hey_arnold")){
     
     print("gpt3")
     
-    # .x$text <- "can you tell us a story about the bees and the birds? [2500]"
+    # update_dat$text <- "can you tell us a story about the bees and the birds? [2500]"
     
-    the_prompt <- gsub("/gpt3 ", "", .x$text)
+    the_prompt <- gsub("/gpt3 ", "", update_dat$text)
     the_prompt <- gsub("/hey_arnold ", "", the_prompt)
     
     n_tokens <- as.numeric(regmatches(the_prompt, gregexpr( "(?<=\\[).+?(?=\\])", the_prompt, perl = T))[[1]])
@@ -119,7 +119,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     print(message_to_sent)
     
-    save_dat <- .x
+    save_dat <- update_dat
     
     save_dat$action <- "done"
     
@@ -131,7 +131,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
           ~ drive_update(file = .x, media = .y))
     
     if(!manual_update){
-      bot$send_message(.x$chat_id, message_to_sent, reply_to_message_id = .x$message_id)
+      bot$send_message(update_dat$chat_id, message_to_sent, reply_to_message_id = update_dat$message_id)
     }
     
 

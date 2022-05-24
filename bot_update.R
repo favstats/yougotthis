@@ -101,6 +101,7 @@ update_list <- bot$get_updates()
     
     update_dat <- update_dat[update_dat$date!=1652122844,]
     
+    update_dat <- update_dat[stringr::str_detect(update_dat$text, "That's great, bebi!", negate = T),]
     
     
     if(nrow(update_dat)!=0){
@@ -126,5 +127,6 @@ update_list <- bot$get_updates()
 
 }
 
-
-
+# debugonce(bot_action)
+# 
+# bot_action(bot, iterate_l[[5]], img_links, manual_update, data_dat)

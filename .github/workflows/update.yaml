@@ -30,6 +30,7 @@ jobs:
           install.packages('httr')
           install.packages('purrr')
           install.packages('googledrive')
+          install.packages('stringr')
         shell: Rscript {0}
       - name: "Check for updates"
         run: Rscript 'bot_update.R'
