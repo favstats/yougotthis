@@ -174,10 +174,19 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     style <- regmatches(the_prompt, gregexpr( "(?<=\\[).+?(?=\\])", the_prompt, perl = T))[[1]]
     
-    if(length(style)==0 | !(style %in% names(opts))) {
+    if(length(style)==0) {
       style <- names(sample(opts, 1))
     } else {
-      the_prompt <- gsub(paste0(" \\[", style, "\\]"), "", the_prompt)
+      
+      if(!(style %in% names(opts))){
+        
+        the_prompt <- gsub(paste0(" \\[", style, "\\]"), "", the_prompt)
+        
+        style <- names(sample(opts, 1))
+      } else {
+        the_prompt <- gsub(paste0(" \\[", style, "\\]"), "", the_prompt)
+      }
+      
     }
     
     the_prompt <- substr(the_prompt, 1, 100)   
