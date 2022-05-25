@@ -174,7 +174,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     style <- regmatches(the_prompt, gregexpr( "(?<=\\[).+?(?=\\])", the_prompt, perl = T))[[1]]
     
-    if(length(style)==0) {
+    if(length(style)==0 | !(style %in% names(opts))) {
       style <- names(sample(opts, 1))
     } else {
       the_prompt <- gsub(paste0(" \\[", style, "\\]"), "", the_prompt)
@@ -196,7 +196,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
           ~ drive_update(file = .x, media = .y))
     
     if(!manual_update){
-      bot$send_photo(update_dat$chat_id, des, caption = glue::glue("Prompt: {the_prompt}. Style: {style}."), reply_to_message_id = update_dat$message_id)
+      bot$send_photo(update_dat$chat_id, des, caption = glue::glue("{the_prompt}. Style: {style}."), reply_to_message_id = update_dat$message_id)
     }
     
     
