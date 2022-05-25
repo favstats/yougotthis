@@ -363,6 +363,7 @@ if name == \"main\":
 "66","/hey_arnold it's over!",1653411253,1809983839,1809983839,1236,"done"
 "49","/hey_arnold create a rap for us on the topic of online health information seeking",1653422851,-719155690,5224295904,1248,"done"
 "50","/hey_arnold create a rap song that rhymes for us on the topic of online health information seeking",1653422959,-719155690,5224295904,1250,"done"
+<<<<<<< HEAD
 "19","/image_prompt a giant lizard with wings",1653445215,1009844052,1009844052,1253,"done"
 "20","/image_prompt",1653445292,1009844052,1009844052,1254,"done"
 "21","/image_prompt a giant lizard with wings",1653445302,1009844052,1009844052,1255,"done"
@@ -374,3 +375,5 @@ if name == \"main\":
 "24","/image_prompt a giant lizard with wings",1653445687,1009844052,1009844052,1258,"done"
 "29","/image_options yy",1653446341,1009844052,1009844052,1265,"done"
 "30","/image_prompt one day the wellerman comes and tea and rum [Psychedelic]",1653446396,1009844052,1009844052,1267,"done"
+=======
+>>>>>>> 74d3eb795badbe5701b70f4ffe3a4ea05a1c99da
