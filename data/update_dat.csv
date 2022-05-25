@@ -363,8 +363,6 @@ if name == \"main\":
 "66","/hey_arnold it's over!",1653411253,1809983839,1809983839,1236,"done"
 "49","/hey_arnold create a rap for us on the topic of online health information seeking",1653422851,-719155690,5224295904,1248,"done"
 "50","/hey_arnold create a rap song that rhymes for us on the topic of online health information seeking",1653422959,-719155690,5224295904,1250,"done"
-<<<<<<< HEAD
-<<<<<<< HEAD
 "19","/image_prompt a giant lizard with wings",1653445215,1009844052,1009844052,1253,"done"
 "20","/image_prompt",1653445292,1009844052,1009844052,1254,"done"
 "21","/image_prompt a giant lizard with wings",1653445302,1009844052,1009844052,1255,"done"
@@ -376,7 +374,29 @@ if name == \"main\":
 "24","/image_prompt a giant lizard with wings",1653445687,1009844052,1009844052,1258,"done"
 "29","/image_options yy",1653446341,1009844052,1009844052,1265,"done"
 "30","/image_prompt one day the wellerman comes and tea and rum [Psychedelic]",1653446396,1009844052,1009844052,1267,"done"
-=======
->>>>>>> 74d3eb795badbe5701b70f4ffe3a4ea05a1c99da
-=======
->>>>>>> 74d3eb795badbe5701b70f4ffe3a4ea05a1c99da
+"25","/image_options",1653446227,1009844052,1009844052,1260,"done"
+"26","/image_options",1653446298,1009844052,1009844052,1262,"done"
+"27","/image_options",1653446323,1009844052,1009844052,1263,"done"
+"28","/image_options",1653446333,1009844052,1009844052,1264,"done"
+"31","/image_prompt Two people at an ICA conference",1653446713,1009844052,1009844052,1273,"done"
+"32","/image_prompt Two people at an ICA conference [Death]",1653446749,1009844052,1009844052,1275,"done"
+"33","/image_prompt Two people at the ICA conference [Robots]",1653455187,1009844052,1009844052,1277,"done"
+"34","/image_prompt Two people at the ICA conference [Robots]",1653456088,-719155690,1009844052,1279,"done"
+"35","/image_options",1653456173,-719155690,1009844052,1281,"done"
+"36","/image_prompt good morning in Paris [Fantasy Art]",1653456392,-719155690,1009844052,1284,"done"
+"38","/image_prompt hackathon in Paris [steampunk]",1653456821,-719155690,1505168472,1287,"done"
+"37","/image_prompt hackathon in Paris",1653456487,-719155690,1505168472,1286,"done"
+"39","/image_prompt A bebi missing the other bebi [Love]",1653457613,-724428608,1009844052,1289,"done"
+"40","/image_options",1653457626,-724428608,1009844052,1290,"done"
+"41","/image_prompt Just 2 two dudes and a boaty in Amsterdam",1653457698,-374972005,1009844052,1293,"done"
+"43","/image_prompt good morning people, did you all sleep well? [Psychic]",1653457888,-719155690,5224295904,1296,"done"
+"44","/image_prompt three men vomiting rainbows",1653458492,-374972005,854518204,1298,"done"
+"45","/image_options",1653458850,-374972005,1009844052,1300,"done"
+"46","/image_prompt three men vomiting rainbows [Death]",1653458875,-374972005,1009844052,1302,"done"
+"47","/image_prompt first cat on the moon [Baroque]",1653459190,-374972005,1028226243,1304,"done"
+"48","/image_prompt Cat fighting scared Dog [Steampunk]",1653459384,-374972005,854518204,1306,"done"
+"49","/image_prompt Sexy Titty Turtle",1653459483,1009844052,1009844052,1308,"done"
+"50","/image_prompt Sexy Titty Turtle",1653459547,1009844052,1009844052,1310,"done"
+"45","/image_prompt Two bebis fighting against a troll [Dark Fantasy]",1653467622,-724428608,154813250,1312,"done"
+"46","/hey_arnold We need a cool name for a research project on multi-modal classification of EU communication tweets.",1653468396,-719155690,186756719,1313,"done"
+"47","/hey_arnold We need a funny name for a research project on multi-modal classification of EU communication tweets.",1653468421,-719155690,186756719,1315,"done"
