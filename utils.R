@@ -1,6 +1,35 @@
 
+opts <<- c("Synthwave" = 1,
+          "Ukiyoe" = 2,
+          "No Style" = 3,
+          "Steampunk" = 4,
+          "Fantasy Art" = 5,
+          "Vibrant" = 6,
+          "HD" = 7,
+          "Pastel" = 8,
+          "Psychic" = 9,
+          "Dark Fantasy" = 10,
+          "Mystical" = 11,
+          "Festive" = 12,
+          "Baroque" = 13,
+          "Etching" = 14,
+          "S.Dali" = 15,
+          "Wuhtercuhler" = 16,
+          "Provenance" = 17,
+          "Rose Gold" = 18,
+          "Moonwalker" = 19,
+          "Blacklight" = 20,
+          "Psychedelic" = 21,
+          "Ghibli" = 22,
+          "Surreal" = 23,
+          "Love" = 24,
+          "Death" = 25,
+          "Robots" = 26
+)
+
+
 bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
-  if(startsWith(update_dat$text, "/send_image") | startsWith(update_dat$text, "/send_motivation")){
+  if(startsWith(update_dat$text, "/send_image ") | startsWith(update_dat$text, "/send_motivation ")){
     print("send motivation")
     
     img_list <- readLines("data/img_list.txt")
@@ -29,7 +58,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
       bot$send_photo(update_dat$chat_id, img_to_sent, reply_to_message_id = update_dat$message_id)
     }
     
-  } else if (startsWith(update_dat$text, "/reset")){
+  } else if (startsWith(update_dat$text, "/reset ")){
     
     print("reset")
     
@@ -77,7 +106,7 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     }
 
     
-  } else if (startsWith(update_dat$text, "/gpt3") | startsWith(update_dat$text, "/hey_arnold")){
+  } else if (startsWith(update_dat$text, "/gpt3 ") | startsWith(update_dat$text, "/hey_arnold ")){
     
     print("gpt3")
     
@@ -136,9 +165,141 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
 
     
-  }      
+  } else if (startsWith(update_dat$text, "/image_prompt ")){
+
+    print("wombo")
+    
+    # the_prompt <- "A giant flying Walrus [Psychedelic]"
+    the_prompt <- gsub("/image_prompt ", "", update_dat$text)
+    
+    style <- regmatches(the_prompt, gregexpr( "(?<=\\[).+?(?=\\])", the_prompt, perl = T))[[1]]
+    
+    if(length(style)==0) {
+      style <- names(sample(opts, 1))
+    } else {
+      the_prompt <- gsub(paste0(" \\[", style, "\\]"), "", the_prompt)
+    }
+    
+    the_prompt <- substr(the_prompt, 1, 100)   
+    
+    des <- wombo_start(the_prompt, style)
+    
+    save_dat <- update_dat
+    
+    save_dat$action <- "done"
+    
+    write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
+    
+    data_dat_save <- data_dat[data_dat$local == "data/update_dat.csv",]
+    
+    walk2(data_dat_save$g_id, data_dat_save$local,
+          ~ drive_update(file = .x, media = .y))
+    
+    if(!manual_update){
+      bot$send_photo(update_dat$chat_id, des, caption = glue::glue("Prompt: {the_prompt}. Style: {style}."), reply_to_message_id = update_dat$message_id)
+    }
+    
+    
+  } else if (startsWith(update_dat$text, "/image_options")){
+    print("wombo options")
+    
+    save_dat <- update_dat
+    
+    save_dat$action <- "done"
+    
+    write.table(save_dat, file = "data/update_dat.csv", append = T, sep = ",", col.names=F)
+    
+    data_dat_save <- data_dat[data_dat$local == "data/update_dat.csv",]
+    
+    walk2(data_dat_save$g_id, data_dat_save$local,
+          ~ drive_update(file = .x, media = .y))
+    
+    if(!manual_update){
+      bot$send_photo(update_dat$chat_id, "img/options.png", caption = glue::glue("Following options are available"), reply_to_message_id = update_dat$message_id)
+    }
+    
+  }
+      
 }
 
+
+
+wombo_start <- function(pro, sty) {
+  
+  opts <- c("Synthwave" = 1,
+             "Ukiyoe" = 2,
+             "No Style" = 3,
+             "Steampunk" = 4,
+             "Fantasy Art" = 5,
+             "Vibrant" = 6,
+             "HD" = 7,
+             "Pastel" = 8,
+             "Psychic" = 9,
+             "Dark Fantasy" = 10,
+             "Mystical" = 11,
+             "Festive" = 12,
+             "Baroque" = 13,
+             "Etching" = 14,
+             "S.Dali" = 15,
+             "Wuhtercuhler" = 16,
+             "Provenance" = 17,
+             "Rose Gold" = 18,
+             "Moonwalker" = 19,
+             "Blacklight" = 20,
+             "Psychedelic" = 21,
+             "Ghibli" = 22,
+             "Surreal" = 23,
+             "Love" = 24,
+             "Death" = 25,
+             "Robots" = 26
+  )
+  
+  heads_up <- add_headers(`accept-encoding` = "gzip",
+                          Authorization = glue::glue("Bearer {get_token()}"),
+                          connection = "keep-alive",
+                          `content-type` = "application/json; charset=utf-8",
+                          host = "paint.api.wombo.ai",
+                          `user-agent` = "okhttp/3.14.9")
+  
+  
+  url <- "https://paint.api.wombo.ai/api/tasks/"
+  
+  posted = POST(url, heads_up, body = list(premium = "false"), encode = "json")
+  
+  task_id <-content(posted)$id
+  
+  # print(sty)
+  # print(opts[sty])
+  # print(as.character(opts[sty]))
+  
+  first_request_payload <- list(input_spec = list(prompt = pro, style = as.numeric(opts[sty])))
+  
+  PUT(url=paste0(url, task_id) , heads_up,
+      body = first_request_payload, encode = "json")
+  
+  
+  Sys.sleep(1.5)
+  
+  task_state <- content(GET(url=paste0(url, task_id), heads_up))$state
+  
+ 
+  
+  destination <- glue::glue("img/{snakecase::to_snake_case(as.character(Sys.time()))}_{snakecase::to_snake_case(pro)}_{snakecase::to_snake_case(sty)}.png")
+  
+  if(task_state == "completed"){
+    image_url <- content(GET(url=paste0(url, task_id), heads_up))$result$final
+    
+    download.file(image_url, destfile = destination, mode = 'wb')
+  } else if (task_state == "generating") {
+    Sys.sleep(10)
+    
+    image_url <-content(GET(url=paste0(url, task_id), heads_up))$result$final
+    
+    download.file(image_url, destfile = destination, mode = 'wb')
+  }
+  
+  return(destination)
+}
 
 
 get_updates <- function(bot, OFFSET) {
@@ -151,4 +312,32 @@ get_update_id <- function(updates) {
   update_id = updates[[last_update]]$update_id
   return (update_id)
   
+}
+
+
+
+get_token <- function() {
+
+  x_goog_api_key = "AIzaSyDxCoSRCFvdsYcJalNfBQQfGl0-YycRkdE"
+  url = glue::glue("https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key={x_goog_api_key}")
+
+  heads_up <- add_headers(`accept-encoding` = "gzip",
+                          `accept-language` = "en-DE, en-US",
+                          connection = "keep-alive",
+                          `content-encoding` = "gzip",
+                          `content-type` = "application/json",
+                          host = "www.googleapis.com",
+                          `user-agent` = "Dalvik/2.1.0 (Linux; U; Android 12; POCO F1 Build/SD1A.210817.036)",
+                          `x-android-package` = "com.womboai.wombodream",
+                          `x-android-cert` = "659AA1EACE253B8667AA28414BF5E21ACD798A4D",
+                          `x-client-version` = "Android/Fallback/X21000001/FirebaseCore-Android"
+                          )
+
+  response <- POST(url, heads_up, json = list())
+
+  conn <- content(response)
+
+  token <- conn$idToken
+
+  return(token)
 }

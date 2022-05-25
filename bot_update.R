@@ -128,5 +128,9 @@ update_list <- bot$get_updates()
 }
 
 # debugonce(bot_action)
+# # 
+# bot_action(bot, iterate_l[[2]], img_links, manual_update, data_dat)
 # 
-# bot_action(bot, iterate_l[[5]], img_links, manual_update, data_dat)
+# 
+# debugonce(wombo_start)
+

@@ -31,6 +31,8 @@ jobs:
           install.packages('purrr')
           install.packages('googledrive')
           install.packages('stringr')
+          install.packages('glue')
+          install.packages('snakecase')
         shell: Rscript {0}
       - name: "Check for updates"
         run: Rscript 'bot_update.R'
