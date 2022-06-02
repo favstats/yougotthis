@@ -33,6 +33,7 @@ jobs:
           install.packages('stringr')
           install.packages('glue')
           install.packages('snakecase')
+          install.packages('R.utils')
         shell: Rscript {0}
       - name: "Check for updates"
         run: Rscript 'bot_update.R'
