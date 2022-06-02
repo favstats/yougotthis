@@ -24,7 +24,8 @@ opts <<- c("Synthwave" = 1,
           "Surreal" = 23,
           "Love" = 24,
           "Death" = 25,
-          "Robots" = 26
+          "Robots" = 26,
+          "Radioactive" = 27
 )
 
 
