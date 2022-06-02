@@ -260,7 +260,8 @@ wombo_start <- function(pro, sty) {
              "Surreal" = 23,
              "Love" = 24,
              "Death" = 25,
-             "Robots" = 26
+             "Robots" = 26,
+             "Radioactive" = 27
   )
   
   heads_up <- add_headers(`accept-encoding` = "gzip",
