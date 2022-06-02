@@ -277,9 +277,15 @@ wombo_start <- function(pro, sty) {
   
   task_id <-content(posted)$id
   
+  # content(posted)
   # print(sty)
   # print(opts[sty])
   # print(as.character(opts[sty]))
+  
+  # pro = "your mom"
+  # sty <- "Death"
+  
+  print(pro)
   
   first_request_payload <- list(input_spec = list(prompt = pro, style = as.numeric(opts[sty])))
   
@@ -291,21 +297,61 @@ wombo_start <- function(pro, sty) {
   
   task_state <- content(GET(url=paste0(url, task_id), heads_up))$state
   
- 
+  
+
   
   destination <- glue::glue("img/{snakecase::to_snake_case(as.character(Sys.time()))}_{snakecase::to_snake_case(pro)}_{snakecase::to_snake_case(sty)}.png")
+  
   
   if(task_state == "completed"){
     image_url <- content(GET(url=paste0(url, task_id), heads_up))$result$final
     
-    download.file(image_url, destfile = destination, mode = 'wb')
-  } else if (task_state == "generating") {
+    download.file(image_url, destfile = destination, mode = 'wb', quiet  = T)
+  } else if (task_state %in% c("generating")) {
     Sys.sleep(10)
     
     image_url <-content(GET(url=paste0(url, task_id), heads_up))$result$final
     
-    download.file(image_url, destfile = destination, mode = 'wb')
+    print(image_url)
+    
+    download.file(image_url, destfile = destination, mode = 'wb', quiet  = T)
+  } else if (task_state %in% c("pending")){
+    
+    Sys.sleep(20)
+    
+    image_url <-content(GET(url=paste0(url, task_id), heads_up))$result$final
+    
+    if(is.null(image_url)){
+      posted = POST(url, heads_up, body = list(premium = "false"), encode = "json")
+      
+      task_id <-content(posted)$id
+      
+      print(pro)
+      
+      first_request_payload <- list(input_spec = list(prompt = pro, style = as.numeric(opts[sty])))
+      
+      PUT(url=paste0(url, task_id) , heads_up,
+          body = first_request_payload, encode = "json")
+      
+      Sys.sleep(10)
+      
+      image_url <-content(GET(url=paste0(url, task_id), heads_up))$result$final
+      
+      print(image_url)
+      
+      download.file(image_url, destfile = destination, mode = 'wb', quiet  = T)
+    }
+    
+    print(image_url)
+    
+    if(!is.null(image_url)){
+      download.file(image_url, destfile = destination, mode = 'wb', quiet  = T)
+    }
+    
+    
+    
   }
+  
   
   return(destination)
 }
@@ -350,3 +396,8 @@ get_token <- function() {
 
   return(token)
 }
+
+# get_token()
+
+
+# wombo_start("How are you doing?", sty = "Death")
