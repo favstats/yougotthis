@@ -33,29 +33,31 @@ running <<- "yes"
 # The following will time out after 5 hours
 tryCatch( { res <- R.utils::withTimeout( {
   
-  # while (running != "error") {
-    running <<- run() 
-  # }
-    ## Try 2
-    if(running == "error"){
-      running <<- run() 
-    }
-    ## Try 3
-    if(running == "error"){
-      running <<- run() 
-    }
-    ## Try 4 
-    if(running == "error"){
-      running <<- run() 
-    }
-    ## Try 5 
-    if(running == "error"){
-      running <<- run() 
-    } 
-    ## Try 6 
-    if(running == "error"){
-      running <<- run() 
-    } 
+  
+  run()
+  # # while (running != "error") {
+  #   running <<- run() 
+  # # }
+  #   ## Try 2
+  #   if(running == "error"){
+  #     running <<- run() 
+  #   }
+  #   ## Try 3
+  #   if(running == "error"){
+  #     running <<- run() 
+  #   }
+  #   ## Try 4 
+  #   if(running == "error"){
+  #     running <<- run() 
+  #   }
+  #   ## Try 5 
+  #   if(running == "error"){
+  #     running <<- run() 
+  #   } 
+  #   ## Try 6 
+  #   if(running == "error"){
+  #     running <<- run() 
+  #   } 
   
   },
                                 timeout = 60*60*4.9) },
