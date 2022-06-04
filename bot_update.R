@@ -3,6 +3,7 @@ library(telegram.bot)
 library(httr)
 library(purrr)
 # source("gdrive.R")
+source("dalle.R")
 
 # library(rvest)
 # html1 <- read_html("html/thelatestkate Shop _ Redbubble.html")
@@ -34,30 +35,30 @@ running <<- "yes"
 tryCatch( { res <- R.utils::withTimeout( {
   
   
-  run()
-  # # while (running != "error") {
-  #   running <<- run() 
-  # # }
-  #   ## Try 2
-  #   if(running == "error"){
-  #     running <<- run() 
-  #   }
-  #   ## Try 3
-  #   if(running == "error"){
-  #     running <<- run() 
-  #   }
-  #   ## Try 4 
-  #   if(running == "error"){
-  #     running <<- run() 
-  #   }
-  #   ## Try 5 
-  #   if(running == "error"){
-  #     running <<- run() 
-  #   } 
-  #   ## Try 6 
-  #   if(running == "error"){
-  #     running <<- run() 
-  #   } 
+  # run()
+  # while (running == "error") {
+    running <<- run()
+  # }
+    ## Try 2
+    if(running == "error"){
+      running <<- run()
+    }
+    ## Try 3
+    if(running == "error"){
+      running <<- run()
+    }
+    ## Try 4
+    if(running != "error"){
+      running <<- run()
+    }
+    ## Try 5
+    if(running != "error"){
+      running <<- run()
+    }
+    ## Try 6
+    if(running != "error"){
+      running <<- run()
+    }
   
   },
                                 timeout = 60*60*4.9) },

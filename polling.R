@@ -397,7 +397,33 @@ run <- function() {
   
   
   
+  dalle <- function(bot, update, args){
+    this_is <<- update
+    
+    print("dalle")
+    
+    if (length(args > 0L)){
+      the_prompt <- paste(args, collapse = " ")
+      
+      
+      the_prompt <- substr(the_prompt, 1, 100)   
+      
+      des <- paint_dalle(the_prompt, "dalle/")
+      
+      print(des)
+      
+      
+      # if(!manual_update){
+      bot$send_photo(update$message$chat_id, des, caption = glue::glue("{the_prompt}."), reply_to_message_id = update$message$message_id)
+      # }
+    }
+    
+    # update_dat$text <- "can you tell us a story about the bees and the birds? [2500]"
+    
+    
+  }
   
+  updater <<- updater + CommandHandler("dalle", dalle, pass_args = T)
   
   
   
