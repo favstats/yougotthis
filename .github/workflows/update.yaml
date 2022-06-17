@@ -42,6 +42,7 @@ jobs:
           install.packages('rlang')
           install.packages('tidytext')
           install.packages('tibble')
+          install.packages('here')
         shell: Rscript {0}
       - name: "Check for updates"
         run: Rscript 'bot_update.R'
