@@ -36,6 +36,13 @@ jobs:
           install.packages('R.utils')
           install.packages('base64enc')
           install.packages('jpeg')
+          install.packages('dplyr')
+          install.packages('readr')
+          install.packages('phonfieldwork')
+          install.packages('rlang')
+          install.packages('utils')
+          install.packages('tidytext')
+          install.packages('tibble')
         shell: Rscript {0}
       - name: "Check for updates"
         run: Rscript 'bot_update.R'

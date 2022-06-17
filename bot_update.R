@@ -2,8 +2,10 @@
 library(telegram.bot)
 library(httr)
 library(purrr)
+library(stringr)
 # source("gdrive.R")
 source("dalle.R")
+source("tiktok_tts.R")
 
 # library(rvest)
 # html1 <- read_html("html/thelatestkate Shop _ Redbubble.html")

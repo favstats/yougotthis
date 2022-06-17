@@ -101,18 +101,40 @@ run <- function() {
       the_prompt <- paste(args, collapse = " ")
       
       
-      n_tokens <- as.numeric(regmatches(the_prompt, gregexpr( "(?<=\\[).+?(?=\\])", the_prompt, perl = T))[[1]])
+      n_tokens <- regmatches(the_prompt, gregexpr( "(?<=\\[).+?(?=\\])", the_prompt, perl = T))[[1]]
       
+      # print(n_tokens)
+      
+      voice <- F
       if(length(n_tokens)==0) {
         n_tokens <- 250
       } else {
+        # print("yo")
         the_prompt <- gsub(paste0(" \\[", n_tokens, "\\]"), "", the_prompt)
+
+
+        
+        if(str_detect(n_tokens, ".oice")){
+          print(n_tokens)
+          
+          voice <- T
+          
+          
+          n_tokens <- readr::parse_number(n_tokens)
+        }
+        
+        
       }
+      
+      if(is.na(n_tokens)) {
+        n_tokens <- 250
+      }
+
       
       print(the_prompt)
       print(n_tokens)
       
-      gpt_prompt <- list(
+      gpt_prompt <<- list(
         prompt = the_prompt,
         temperature = 1,
         max_tokens = n_tokens,
@@ -120,6 +142,78 @@ run <- function() {
         frequency_penalty = 0.5,
         presence_penalty = 0.5
       )
+      
+      
+      if(voice){
+        dispatcher <- updater$dispatcher
+        
+        
+        
+        
+        start_keyboard <- ReplyKeyboardMarkup(
+          keyboard = as.character(voices) %>% 
+            map(KeyboardButton) %>% 
+            map(list),
+          one_time_keyboard = TRUE, selective = TRUE
+        )
+        
+        print("send keyboard")
+        
+        original_message <<- update$message$message_id 
+        
+        # start <- function(bot, update) {
+        bot$sendMessage(chat_id = update$message$chat_id,
+                        reply_to_message_id = original_message,
+                        text = "Choose a speaker:",
+                        reply_markup = start_keyboard
+        )
+        # }
+        
+        
+        # dispatcher$add_handler(CommandHandler('start', start))
+        
+        
+        start_handler <- function(bot, update){
+          speaker <<- names(voices[which(voices == update$message$text)])
+          
+          
+          # bot$sendMessage(chat_id = update$message$chat_id, 
+          #                 text = update$message$text, 
+          #                 reply_to_message_id = update$message$message_id)
+          myurl <- "https://api.openai.com/v1/engines/text-davinci-002/completions"
+          
+          apikey <- Sys.getenv("gpt3")
+          
+          output <- httr::POST(myurl,
+                               body = gpt_prompt,
+                               add_headers(Authorization = paste("Bearer", apikey)),
+                               encode = "json")
+          
+          
+          message_to_sent <- content(output)$choices[[1]]$text
+          
+          print("create audio")
+          
+          final_des <- tiktok_tts(message_to_sent, speaker)
+          
+          bot$send_audio(update$message$chat_id, caption = message_to_sent, reply_to_message_id = original_message, audio = final_des)
+          
+
+        }        
+        
+        
+        dispatcher$add_handler(MessageHandler(start_handler, MessageFilters$text))
+        
+        
+
+        
+        return("done")
+      }
+      
+
+      
+      
+      
       
       myurl <- "https://api.openai.com/v1/engines/text-davinci-002/completions"
       
@@ -424,6 +518,58 @@ run <- function() {
   }
   
   updater <<- updater + CommandHandler("dalle", dalle, pass_args = T)
+  
+  
+    # dispatcher2 <<- updater$dispatcher
+    # 
+    # 
+    # 
+    # 
+    # start_keyboard <- ReplyKeyboardMarkup(
+    #   keyboard = as.character(voices) %>% 
+    #     map(KeyboardButton) %>% 
+    #     map(list),
+    #   one_time_keyboard = TRUE, selective = TRUE
+    # )
+    # 
+    # # print("send keyboard")
+    # 
+    # 
+    # hey_arnold_say <- function(bot, update) {
+    #   
+    #   
+    #   original_message <<- update$message$message_id 
+    #   # the_prompt <<- paste(args, collapse = " ")
+    #   
+    # bot$sendMessage(chat_id = update$message$chat_id,
+    #                 reply_to_message_id = original_message,
+    #                 text = "Choose a speaker:",
+    #                 reply_markup = start_keyboard
+    # )
+    # }
+    # 
+    # 
+    # 
+    # dispatcher2$add_handler(CommandHandler('hey_arnold_say', hey_arnold_say))
+    # 
+    # 
+    # start_handler2 <- function(bot, update){
+    #   
+    #   
+    #   
+    #   speaker <<- names(voices[which(voices == update$message$text)])
+    #   
+    #   final_des <- tiktok_tts(the_prompt, speaker)
+    #   
+    #   bot$send_audio(update$message$chat_id, caption = the_prompt, reply_to_message_id = original_message, audio = final_des, title = "Here is my response :)")
+    #   
+    #   
+    # }        
+    # 
+    # 
+    # dispatcher2$add_handler(MessageHandler(start_handler2, MessageFilters$text))
+  
+
   
   
   
