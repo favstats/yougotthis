@@ -40,7 +40,6 @@ jobs:
           install.packages('readr')
           install.packages('phonfieldwork')
           install.packages('rlang')
-          install.packages('utils')
           install.packages('tidytext')
           install.packages('tibble')
         shell: Rscript {0}

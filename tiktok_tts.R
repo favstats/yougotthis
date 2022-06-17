@@ -29,7 +29,11 @@ tiktok_tts <- function(prmpt, speaker) {
   
   print("combine it")
   
+  print(dir("tts"))
+  
   concatenate_soundfiles(path = paste0(here::here(), "/tts/", deses[1]), result_file_name = deses[1], annotation = NULL)
+  
+  print("combined")
   
   # file.remove()
   

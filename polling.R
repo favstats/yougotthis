@@ -196,8 +196,11 @@ run <- function() {
           
           final_des <- tiktok_tts(message_to_sent, speaker)
           
+          print("send audio")
+          
           bot$send_audio(update$message$chat_id, caption = message_to_sent, reply_to_message_id = original_message, audio = final_des)
           
+          print("send")
 
         }        
         
