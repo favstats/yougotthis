@@ -12,6 +12,8 @@ library(phonfieldwork)
 
 # the_text <- "hello"
 
+concatenate_soundfiles <- possibly(concatenate_soundfiles, otherwise = "error", quiet = F)
+
 tiktok_tts <- function(prmpt, speaker) {
   
   the_text <- prmpt %>% 
