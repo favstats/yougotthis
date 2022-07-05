@@ -62,6 +62,7 @@ get_sounds <- function(t, speaker, hashs) {
 
 download_sound <- function(x, folder, hashs){
   
+  # stop("i am an error")
   
   rand_num <- round(runif(1, 0, 10000000))
   temp_bin <- paste0(rand_num, ".bin")
@@ -134,22 +135,22 @@ voices <<- c(
   'de_002'                 =  "German - Male",
   'es_002'                 =  "Spanish - Male",
   
-  # # AMERICA VOICES
-  # 'es_mx_002',              =  "Spanish MX - Male"
-  # 'br_001',                 =  "Portuguese BR - Female 1"
-  # 'br_003',                 =  "Portuguese BR - Female 2"
-  # 'br_004',                 =  "Portuguese BR - Female 3"
-  # 'br_005',                 =  "Portuguese BR - Male"
-  # 
-  # # ASIA VOICES
-  # 'id_001',                 =  "Indonesian - Female",
-  # 'jp_001',                 =  "Japanese - Female 1",
-  # 'jp_003',                 =  "Japanese - Female 2",
-  # 'jp_005',                 =  "Japanese - Female 3",
-  # 'jp_006',                 =  "Japanese - Male",
-  # 'kr_002',                 =  "Korean - Male 1",
-  # 'kr_003',                 =  "Korean - Female",
-  # 'kr_004',                 =  "Korean - Male 2",
+  # AMERICA VOICES
+  'es_mx_002'              =  "Spanish MX - Male",
+  'br_001'                 =  "Portuguese BR - Female 1",
+  'br_003'                 =  "Portuguese BR - Female 2",
+  'br_004'                 =  "Portuguese BR - Female 3",
+  'br_005'                 =  "Portuguese BR - Male",
+
+  # ASIA VOICES
+  'id_001'                 =  "Indonesian - Female",
+  'jp_001'                 =  "Japanese - Female 1",
+  'jp_003'                 =  "Japanese - Female 2",
+  'jp_005'                 =  "Japanese - Female 3",
+  'jp_006'                 =  "Japanese - Male",
+  'kr_002'                 =  "Korean - Male 1",
+  'kr_003'                 =  "Korean - Female",
+  'kr_004'                 =  "Korean - Male 2",
   
   # NARRATOR
   'en_male_narration' = "Narrator Voice",
@@ -158,3 +159,54 @@ voices <<- c(
   'en_female_f08_salut_damour' =  "Singing Female",
   'en_male_m03_lobby' = "Singing Male"
 )
+
+
+tiktok_tts_it <- function(prmpt, speaker) {
+  out <- tryCatch(
+    {
+      # Just to highlight: if you want to use more than one 
+      # R expression in the "try" part then you'll have to 
+      # use curly brackets.
+      # 'tryCatch()' will return the last evaluated expression 
+      # in case the "try" part was completed successfully
+      
+      # message("This is the 'try' part")
+      
+      tiktok_tts(prmpt, speaker)
+      # The return value of `readLines()` is the actual value 
+      # that will be returned in case there is no condition 
+      # (e.g. warning or error). 
+      # You don't need to state the return value via `return()` as code 
+      # in the "try" part is not wrapped inside a function (unlike that
+      # for the condition handlers for warnings and error below)
+    },
+    error=function(cond) {
+      # message(paste("URL does not seem to exist:", url))
+      message("Here's the original error message:")
+      print(as.character(cond))
+      
+      bot$send_message(1009844052, as.character(cond))
+      
+      # Choose a return value in case of error
+      return("error")
+    },
+    # warning=function(cond) {
+    #   # message(paste("URL caused a warning:", url))
+    #   message("Here's the original warning message [tiktok]:")
+    #   print(cond)
+    #   # Choose a return value in case of warning
+    #   return(NULL)
+    # },
+    finally={
+      # NOTE:
+      # Here goes everything that should be executed at the end,
+      # regardless of success or error.
+      # If you want more than one expression to be executed, then you 
+      # need to wrap them in curly brackets ({...}); otherwise you could
+      # just have written 'finally=<expression>' 
+      # message(paste("Processed URL:", url))
+      # message("Some other message at the end")
+    }
+  )    
+  return(out)
+}
