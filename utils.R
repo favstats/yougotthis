@@ -139,10 +139,8 @@ bot_action <- function(bot, update_dat, img_links, manual_update, data_dat) {
     
     apikey <- Sys.getenv("gpt3")
     
-    output <- httr::POST(myurl, 
-                         body = gpt_prompt, 
-                         add_headers(Authorization = paste("Bearer", apikey)), 
-                         encode = "json")
+    output <- gpt3_fun_it(myurl, gpt_prompt, apikey)
+    
     
     
     message_to_sent <- content(output)$choices[[1]]$text
