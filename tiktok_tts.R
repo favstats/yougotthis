@@ -201,9 +201,6 @@ tiktok_tts_it <- function(prmpt, speaker) {
       # NOTE:
       # Here goes everything that should be executed at the end,
       # regardless of success or error.
-      dir("tts", full.names = T) %>% 
-        purrr::discard(~stringr::str_detect(.x, "1sec")) %>%
-        walk(~{unlink(.x, recursive=TRUE)})
       # If you want more than one expression to be executed, then you 
       # need to wrap them in curly brackets ({...}); otherwise you could
       # just have written 'finally=<expression>' 
