@@ -1,6 +1,8 @@
 
 run <- function() {
   
+  # stop("yo")
+  
   # updater <<- Updater(token = Sys.getenv("r_telegram_bot_arnold"))
   
   # bot <<- Bot(token = Sys.getenv("r_telegram_bot_arnold"))
@@ -90,7 +92,7 @@ run <- function() {
   
   
   
-  
+  # hey_arnold(bot, update, )
   
   hey_arnold <- function(bot, update, args){
     this_is <<- update
@@ -98,7 +100,7 @@ run <- function() {
     print("gpt3")
     
     if (length(args > 0L)){
-      the_prompt <- paste(args, collapse = " ")
+      the_prompt <<- paste(args, collapse = " ")
       
       
       n_tokens <- regmatches(the_prompt, gregexpr( "(?<=\\[).+?(?=\\])", the_prompt, perl = T))[[1]]
@@ -106,6 +108,7 @@ run <- function() {
       # print(n_tokens)
       
       voice <- F
+      
       if(length(n_tokens)==0) {
         n_tokens <- 250
       } else {
@@ -115,12 +118,14 @@ run <- function() {
 
         
         if(str_detect(n_tokens, ".oice")){
-          print(n_tokens)
+          # print(n_tokens)
           
           voice <- T
           
           
           n_tokens <- readr::parse_number(n_tokens)
+          
+          print(n_tokens)
         }
         
         
@@ -131,17 +136,24 @@ run <- function() {
       }
 
       
-      print(the_prompt)
-      print(n_tokens)
+      print(paste0("the prompt: ",the_prompt))
+      print(paste0("n_tokens: ",n_tokens))
+      
+      print("create post req")
       
       gpt_prompt <<- list(
         prompt = the_prompt,
         temperature = 1,
-        max_tokens = n_tokens,
+        max_tokens = as.integer(n_tokens),
         top_p = 1,
         frequency_penalty = 0.5,
         presence_penalty = 0.5
       )
+      
+      print(gpt_prompt)
+      
+      print("post req created")
+      
       
       
       if(voice){
@@ -170,13 +182,15 @@ run <- function() {
         # }
         
         
+        print("keyboard send")
+        
         # dispatcher$add_handler(CommandHandler('start', start))
         
         
         start_handler <- function(bot, update){
           speaker <<- names(voices[which(voices == update$message$text)])
           
-          
+          print("activate gpt3")
           # bot$sendMessage(chat_id = update$message$chat_id, 
           #                 text = update$message$text, 
           #                 reply_to_message_id = update$message$message_id)
@@ -184,21 +198,23 @@ run <- function() {
           
           apikey <- Sys.getenv("gpt3")
           
-          output <- httr::POST(myurl,
-                               body = gpt_prompt,
-                               add_headers(Authorization = paste("Bearer", apikey)),
-                               encode = "json")
+          output <- gpt3_fun_it(myurl, gpt_prompt, apikey)
           
+          print("prompt posted to API")
           
           message_to_sent <- content(output)$choices[[1]]$text
           
           print("create audio")
           
-          final_des <- tiktok_tts(message_to_sent, speaker)
+          final_des <- tiktok_tts_it(message_to_sent, speaker)
           
           print("send audio")
           
-          bot$send_audio(update$message$chat_id, caption = message_to_sent, audio = final_des)
+          try(
+            bot$send_audio(update$message$chat_id, caption = message_to_sent, audio = final_des)
+          )
+          
+          
           
           print("send")
 
@@ -215,22 +231,27 @@ run <- function() {
       
 
       
-      
+      print("get text from api")
       
       
       myurl <- "https://api.openai.com/v1/engines/text-davinci-002/completions"
       
       apikey <- Sys.getenv("gpt3")
       
-      output <- httr::POST(myurl,
-                           body = gpt_prompt,
-                           add_headers(Authorization = paste("Bearer", apikey)),
-                           encode = "json")
       
+      output <- gpt3_fun_it(myurl, gpt_prompt, apikey)
+      
+      print("post happened")
       
       message_to_sent <- content(output)$choices[[1]]$text
       
-      # print(message_to_sent)
+      print(content(output))
+      
+      print(http_error(output))
+      
+      print("save message")
+      
+      print(message_to_sent)
       
       # save_dat <- update_dat
       
@@ -246,6 +267,8 @@ run <- function() {
       # if(!manual_update){
       bot$send_message(update$message$chat_id, message_to_sent, reply_to_message_id = update$message$message_id)
       # }
+      
+      print("message send")
     }
     
     # update_dat$text <- "can you tell us a story about the bees and the birds? [2500]"
@@ -505,7 +528,7 @@ run <- function() {
       
       the_prompt <- substr(the_prompt, 1, 100)   
       
-      des <- paint_dalle(the_prompt, "dalle/")
+      des <- paint_dalle_it(the_prompt, "dalle/")
       
       print(des)
       
