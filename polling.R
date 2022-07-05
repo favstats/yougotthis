@@ -210,9 +210,28 @@ run <- function() {
           
           print("send audio")
           
-          try(
-            bot$send_audio(update$message$chat_id, caption = message_to_sent, audio = final_des)
-          )
+          
+          send_audio <- function(ch, c, a) {
+            # try(
+            bot$send_audio(ch, caption = c, audio = a)
+            # )
+            
+            return("done")
+          }
+          
+          send_audio <- possibly(send_audio, otherwise = "error", quiet = F)
+          
+          did_it_happen <- send_audio(update$message$chat_id, message_to_sent, final_des)
+          
+          if(did_it_happen == "error"){
+            
+            print("try again")
+            
+            final_des <- tiktok_tts_it(message_to_sent, speaker)
+            
+            send_audio(update$message$chat_id, message_to_sent, final_des)
+            
+          }
           
           
           
